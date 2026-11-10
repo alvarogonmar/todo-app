@@ -14,7 +14,7 @@ import { useTodos } from "../../hooks/useTodos";
 
 export default function Index() {
   const [text, setText] = useState("");
-  const { todos, addTodo, toggleTodo, removeTodo } = useTodos();
+  const { todos, addTodo, toggleTodo, removeTodo, loaded } = useTodos();
   const router = useRouter();
 
   const handleAdd = () => {
@@ -27,6 +27,14 @@ export default function Index() {
   const handlePress = (id) => {
     router.push(`/details/${id}`);
   };
+
+  if (!loaded) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={{ color: "white" }}>Cargando tareas...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
