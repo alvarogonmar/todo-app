@@ -1,5 +1,6 @@
+import { ThemeContext } from "@/context/themeContext";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -16,6 +17,9 @@ export default function Index() {
   const [text, setText] = useState("");
   const { todos, addTodo, toggleTodo, removeTodo, loaded } = useTodos();
   const router = useRouter();
+
+  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
+  const styles = createStyles(theme, colorScheme);
 
   const handleAdd = () => {
     const added = addTodo(text);
@@ -49,6 +53,14 @@ export default function Index() {
         <Pressable style={styles.button} onPress={handleAdd}>
           <Text style={styles.buttonText}>Add</Text>
         </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() =>
+            setColorScheme(colorScheme === "light" ? "dark" : "light")
+          }
+        >
+          <Text style={styles.buttonText}>Theme</Text>
+        </Pressable>
       </View>
 
       <FlatList
@@ -59,6 +71,7 @@ export default function Index() {
             onToggle={toggleTodo}
             onRemove={removeTodo}
             onDetails={handlePress}
+            theme={theme}
           />
         )}
         keyExtractor={(todo) => todo.id.toString()}
@@ -68,36 +81,38 @@ export default function Index() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-  },
-  inputContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  input: {
-    flex: 1,
-    minWidth: 0,
-    color: "white",
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 12,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
+function createStyles(theme, colorScheme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+    inputContainer: {
+      width: "100%",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+    },
+    input: {
+      flex: 1,
+      minWidth: 0,
+      color: theme.text,
+      borderWidth: 1,
+      borderColor: "gray",
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+    },
+    button: {
+      backgroundColor: "#007AFF",
+      padding: 12,
+      borderRadius: 8,
+      alignItems: "center",
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
+  });
+}
