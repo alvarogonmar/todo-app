@@ -5,6 +5,7 @@ export const Colors = {
     icon: "black",
     border: "black",
     button: "royalblue",
+    themeIcon: "black",
   },
   dark: {
     text: "white",
@@ -12,5 +13,6 @@ export const Colors = {
     icon: "red",
     border: "white",
     button: "white",
+    themeIcon: "white",
   },
 };

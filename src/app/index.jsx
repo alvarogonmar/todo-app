@@ -1,4 +1,5 @@
 import { ThemeContext } from "@/context/themeContext";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import {
@@ -54,12 +55,25 @@ export default function Index() {
           <Text style={styles.buttonText}>Add</Text>
         </Pressable>
         <Pressable
-          style={styles.button}
           onPress={() =>
             setColorScheme(colorScheme === "light" ? "dark" : "light")
           }
         >
-          <Text style={styles.buttonText}>Theme</Text>
+          {colorScheme === "light" ? (
+            <MaterialCommunityIcons
+              name="lightbulb-on"
+              size={32}
+              color={theme.text}
+              style={styles.themeIcon}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              name="lightbulb-outline"
+              size={32}
+              color={theme.text}
+              style={styles.themeIcon}
+            />
+          )}
         </Pressable>
       </View>
 
@@ -113,6 +127,9 @@ function createStyles(theme, colorScheme) {
       color: "white",
       fontSize: 16,
       fontWeight: "bold",
+    },
+    themeIcon: {
+      padding: 8,
     },
   });
 }
